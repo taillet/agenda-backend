@@ -1,0 +1,2 @@
+class CategorynotesController < ApplicationController
+end
