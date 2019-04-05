@@ -1,5 +1,5 @@
-class ToDoItemSerializer < ActiveModel::Serializer
-  attributes :id, :description, :checked, :priority, :categories, :user, :day
+class EventSerializer < ActiveModel::Serializer
+  attributes :id, :title, :description, :checked, :start, :end, :priority, :user, :day, :categories
 
   def user
     {id: self.object.user.id, name: self.object.user.name}
@@ -10,8 +10,8 @@ class ToDoItemSerializer < ActiveModel::Serializer
   end
 
   def categories
-    categories = Categorytodo.all.select do |categorytodo|
-      categorytodo.to_do_item == self.object
+    categories = Categoryevent.all.select do |categoryevent|
+      categoryevent.event == self.object
     end
     cats = categories.map do |cat|
      {id: cat.category_id, name: Category.find(cat.category_id).name}

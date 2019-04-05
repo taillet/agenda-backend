@@ -1,0 +1,2 @@
+class CategoryeventsController < ApplicationController
+end

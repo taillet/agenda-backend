@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_02_175713) do
+ActiveRecord::Schema.define(version: 2019_04_05_130435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 2019_04_02_175713) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "categoryevents", force: :cascade do |t|
+    t.bigint "category_id"
+    t.bigint "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_categoryevents_on_category_id"
+    t.index ["event_id"], name: "index_categoryevents_on_event_id"
   end
 
   create_table "categorynotes", force: :cascade do |t|
@@ -45,6 +54,21 @@ ActiveRecord::Schema.define(version: 2019_04_02_175713) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.boolean "checked", default: false
+    t.datetime "start"
+    t.datetime "end"
+    t.string "priority"
+    t.bigint "user_id"
+    t.bigint "day_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["day_id"], name: "index_events_on_day_id"
+    t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
   create_table "notes", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -57,12 +81,9 @@ ActiveRecord::Schema.define(version: 2019_04_02_175713) do
   end
 
   create_table "to_do_items", force: :cascade do |t|
-    t.string "title"
     t.string "description"
-    t.boolean "checked", default: false
-    t.datetime "start"
-    t.datetime "end"
     t.string "priority"
+    t.boolean "checked", default: false
     t.bigint "user_id"
     t.bigint "day_id"
     t.datetime "created_at", null: false
@@ -77,10 +98,14 @@ ActiveRecord::Schema.define(version: 2019_04_02_175713) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "categoryevents", "categories"
+  add_foreign_key "categoryevents", "events"
   add_foreign_key "categorynotes", "categories"
   add_foreign_key "categorynotes", "notes"
   add_foreign_key "categorytodos", "categories"
   add_foreign_key "categorytodos", "to_do_items"
+  add_foreign_key "events", "days"
+  add_foreign_key "events", "users"
   add_foreign_key "notes", "days"
   add_foreign_key "notes", "users"
   add_foreign_key "to_do_items", "days"
