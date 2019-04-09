@@ -14,10 +14,14 @@ class ToDoItemsController < ApplicationController
 
   def update
     t = ToDoItem.find(params[:id])
-    if params[:description] == nil
+    if params[:checked] != nil
       t.update(checked: params[:checked])
-    elsif params[:description] != nil
+    end
+    if params[:description] != nil
       t.update(description: params[:description])
+    end
+    if params[:priority] != nil
+      t.update(priority: params[:priority])
     end
     render json: t
   end
