@@ -12,7 +12,7 @@ class NotesController < ApplicationController
       params[:categories].each do |category|
         if category['value'].is_a?(Integer)
           Categorynote.create(note_id: t.id, category_id: category['value'])
-        elsif !category['value'].is_a?(Integer)
+        elsif !category['value'].is_a?(Integer) && category['value'] != nil && category['value'].unique != ' ' && category['value'].unique != ''
           c = Category.create(name: category['label'])
           Categorynote.create(note_id: t.id, category_id: c.id)
         end
@@ -37,7 +37,7 @@ class NotesController < ApplicationController
       params[:categories].each do |category|
         if category['value'].is_a?(Integer)
           Categorynote.create(note_id: t.id, category_id: category['value'])
-        elsif !category['value'].is_a?(Integer)
+        elsif !category['value'].is_a?(Integer) && category['value'] != nil && category['value'].unique != ' ' && category['value'].unique != ''
           c = Category.create(name: category['label'])
           Categorynote.create(note_id: t.id, category_id: c.id)
         end

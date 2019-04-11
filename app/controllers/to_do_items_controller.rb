@@ -28,7 +28,7 @@ class ToDoItemsController < ApplicationController
         if category['value'].is_a?(Integer)
           Categorytodo.create(to_do_item_id: t.id, category_id: category['value'])
         elsif !category['value'].is_a?(Integer)
-          c = Category.create(name: category['label'])
+        elsif !category['value'].is_a?(Integer) && category['value'] != nil && category['value'].unique != ' ' && category['value'].unique != ''
           Categorytodo.create(to_do_item_id: t.id, category_id: c.id)
         end
       end
