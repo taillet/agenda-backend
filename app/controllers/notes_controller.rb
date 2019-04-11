@@ -8,7 +8,16 @@ class NotesController < ApplicationController
     u = User.find(params[:user_id])
     d = Day.find(params[:day_id])
     t = Note.create(description: params[:description], title: params[:title],day: d, user: u)
-    Categorynote.find_or_create_by(note_id: t.id,category_id: params[:category_id])
+    if params[:categories] != nil
+      params[:categories].each do |category|
+        if category['value'].is_a?(Integer)
+          Categorynote.create(note_id: t.id, category_id: category['value'])
+        elsif !category['value'].is_a?(Integer)
+          c = Category.create(name: category['label'])
+          Categorynote.create(note_id: t.id, category_id: c.id)
+        end
+      end
+    end
     render json: t
   end
 
@@ -22,6 +31,17 @@ class NotesController < ApplicationController
     end
     if params[:day] != nil
       t.update(day: params[:day])
+    end
+    if params[:categories] != nil
+      t.categorynotes.destroy_all if t.categorynotes
+      params[:categories].each do |category|
+        if category['value'].is_a?(Integer)
+          Categorynote.create(note_id: t.id, category_id: category['value'])
+        elsif !category['value'].is_a?(Integer)
+          c = Category.create(name: category['label'])
+          Categorynote.create(note_id: t.id, category_id: c.id)
+        end
+      end
     end
     render json: t
   end
