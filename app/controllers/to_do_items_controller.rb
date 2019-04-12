@@ -27,8 +27,7 @@ class ToDoItemsController < ApplicationController
       params[:categories].each do |category|
         if category['value'].is_a?(Integer)
           Categorytodo.create(to_do_item_id: t.id, category_id: category['value'])
-        elsif !category['value'].is_a?(Integer)
-        elsif !category['value'].is_a?(Integer) && category['value'] != nil && category['value'].unique != ' ' && category['value'].unique != ''
+        elsif !category['value'].is_a?(Integer) && category['value'] != nil && category['value'] != ' ' && category['value'] != ''
           Categorytodo.create(to_do_item_id: t.id, category_id: c.id)
         end
       end
