@@ -6,7 +6,7 @@ class NotesController < ApplicationController
 
   def create
     u = User.find(params[:user_id])
-    d = Day.find(params[:day_id])
+    d = Day.find_or_create_by(date: params[:day])
     t = Note.create(description: params[:description], title: params[:title],day: d, user: u)
     if params[:categories] != nil
       params[:categories].each do |category|
@@ -23,14 +23,15 @@ class NotesController < ApplicationController
 
   def update
     t = Note.find(params[:id])
+    if params[:day] != nil
+      d = Day.find_or_create_by(date: params[:day])
+      t.update(day: d)
+    end
     if params[:title] != nil
       t.update(title: params[:title])
     end
     if params[:description] != nil
       t.update(description: params[:description])
-    end
-    if params[:day] != nil
-      t.update(day: params[:day])
     end
     if params[:categories] != nil
       t.categorynotes.destroy_all if t.categorynotes

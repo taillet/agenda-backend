@@ -16,7 +16,7 @@ class ToDoItemsController < ApplicationController
     if params[:checked] != nil
       t.update(checked: params[:checked])
     end
-    if params[:description] != nil
+    if params[:description] != nil && params[:description] != "" && params[:description] != " "
       t.update(description: params[:description])
     end
     if params[:priority] != nil
@@ -32,6 +32,10 @@ class ToDoItemsController < ApplicationController
           Categorytodo.create(to_do_item_id: t.id, category_id: c.id)
         end
       end
+    end
+    if params[:day] != nil
+      d = Day.find_or_create_by(date: params[:day])
+      t.update(day: d)
     end
     render json: t
   end
