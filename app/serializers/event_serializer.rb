@@ -1,12 +1,18 @@
 class EventSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :checked, :start, :end, :priority, :user, :day, :categories
+  attributes :id, :title, :description, :checked, :start, :end, :priority, :user, :categories
 
   def user
     {id: self.object.user.id, name: self.object.user.name}
   end
 
-  def day
-    {id: self.object.day.id, date: self.object.day.date}
+  def start
+    s = Day.find_by(id: self.object.start)
+    return {id: s.id, date: s.date}
+  end
+
+  def end
+    e = Day.find_by(id: self.object.end)
+    return {id: e.id, date: e.date}
   end
 
   def categories

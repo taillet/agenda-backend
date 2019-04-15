@@ -57,15 +57,15 @@ ActiveRecord::Schema.define(version: 2019_04_05_130435) do
   create_table "events", force: :cascade do |t|
     t.string "title"
     t.string "description"
+    t.integer "start"
+    t.integer "end"
     t.boolean "checked", default: false
-    t.datetime "start"
-    t.datetime "end"
     t.string "priority"
     t.bigint "user_id"
-    t.bigint "day_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["day_id"], name: "index_events_on_day_id"
+    t.index ["end"], name: "index_events_on_end"
+    t.index ["start"], name: "index_events_on_start"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
@@ -104,7 +104,6 @@ ActiveRecord::Schema.define(version: 2019_04_05_130435) do
   add_foreign_key "categorynotes", "notes"
   add_foreign_key "categorytodos", "categories"
   add_foreign_key "categorytodos", "to_do_items"
-  add_foreign_key "events", "days"
   add_foreign_key "events", "users"
   add_foreign_key "notes", "days"
   add_foreign_key "notes", "users"
