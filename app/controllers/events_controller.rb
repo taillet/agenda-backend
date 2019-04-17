@@ -21,4 +21,11 @@ class EventsController < ApplicationController
     end
     render json: t
   end
+
+
+    def destroy
+    t = Event.find(params[:id])
+    t.destroy
+    render json: t
+  end
 end
