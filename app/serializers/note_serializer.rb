@@ -14,7 +14,7 @@ class NoteSerializer < ActiveModel::Serializer
       categorynote.note == self.object
     end
     cats = categories.map do |cat|
-      {id: cat.category_id, name: Category.find(cat.category_id).name}
+      {id: cat.category_id, name: Category.find(cat.category_id).name, color: Category.find(cat.category_id).color, }
     end
     return cats
   end

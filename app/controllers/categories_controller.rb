@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
   end
 
   def create
-    t = Category.create(name: params[:name], color: "#ABB8C3")
+    t = Category.create(name: params[:name], color: '#E0FFFF')
     render json: t
   end
 

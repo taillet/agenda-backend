@@ -14,7 +14,7 @@ class EventsController < ApplicationController
         if category['value'].is_a?(Integer)
           Categoryevent.create(event_id: t.id, category_id: category['value'])
         elsif !category['value'].is_a?(Integer) && category['value'] != nil && category['value'] != ' ' && category['value'] != ''
-          c = Category.create(name: category['label'])
+          c = Category.create(name: category['label'], color: '#E0FFFF')
           Categoryevent.create(event_id: t.id, category_id: c.id)
         end
       end
